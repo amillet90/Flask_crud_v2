@@ -3,6 +3,13 @@ import os
 from flask import Flask
 
 
+def register_routes_entry(app):
+    import routes
+
+    for entry in routes.routes:
+        entry.register(app)
+
+
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
@@ -16,8 +23,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route('/')
-    def hello():
-        return 'Hello, world!'
+    register_routes_entry(app)
 
     return app
