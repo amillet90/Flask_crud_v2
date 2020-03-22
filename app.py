@@ -6,7 +6,7 @@ from flask import Flask, Blueprint
 
 
 def load_config(app):
-    import config
+    config = import_module('config')
 
     app.config.from_object(config)
 
