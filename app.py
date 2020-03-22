@@ -35,9 +35,11 @@ def load_modules_from_parent(name):
 
 
 def load_all_controllers(app):
-    for attr in load_modules_from_parent('controller'):
-        if isinstance(attr, Blueprint):
-            app.register_blueprint(attr)
+    for module in load_modules_from_parent('controller'):
+        for attr in dir(module):
+            attr = getattr(module, attr)
+            if isinstance(attr, Blueprint):
+                app.register_blueprint(attr)
 
 
 @click.command('init-db',
