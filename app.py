@@ -1,7 +1,8 @@
 import os
 from logging.config import dictConfig
+from importlib import import_module
 
-from flask import Flask
+from flask import Flask, Blueprint
 
 
 def load_config(app):
@@ -21,11 +22,17 @@ def make_instance_path(app):
         pass
 
 
-def register_routes_entry(app):
-    import routes
+def load_all_controllers(app):
+    parent_module = import_module('controller')
 
-    for entry in routes.routes:
-        entry.register(app)
+    modules = parent_module.__all__
+
+    for mod_name in modules:
+        mod = import_module(f'controller.{mod_name}')
+        for name, attr in mod.__dict__.items():
+            if isinstance(attr, Blueprint):
+                app.register_blueprint(attr)
+                app.logger.info(f'registered: controller.{mod_name}.{name}')
 
 
 def create_app():
@@ -34,6 +41,6 @@ def create_app():
     load_config(app)
     load_logging_config(app)
     make_instance_path(app)
-    register_routes_entry(app)
+    load_all_controllers(app)
 
     return app
