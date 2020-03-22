@@ -2,7 +2,12 @@ import os
 from logging.config import dictConfig
 from importlib import import_module
 
+import click
 from flask import Flask, Blueprint
+from flask.cli import with_appcontext
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 
 def load_config(app):
@@ -22,17 +27,25 @@ def make_instance_path(app):
         pass
 
 
+def load_modules_from_parent(name):
+    parent_module = import_module(name)
+
+    return [import_module(f'{name}.{module_name}')
+            for module_name in parent_module.__all__]
+
+
 def load_all_controllers(app):
-    parent_module = import_module('controller')
+    for attr in load_modules_from_parent('controller'):
+        if isinstance(attr, Blueprint):
+            app.register_blueprint(attr)
 
-    modules = parent_module.__all__
 
-    for mod_name in modules:
-        mod = import_module(f'controller.{mod_name}')
-        for name, attr in mod.__dict__.items():
-            if isinstance(attr, Blueprint):
-                app.register_blueprint(attr)
-                app.logger.info(f'registered: controller.{mod_name}.{name}')
+@click.command('init-db',
+               short_help='Initialize database and populate with models')
+@with_appcontext
+def create_all_models_command():
+    load_modules_from_parent('model')
+    db.create_all()
 
 
 def create_app():
@@ -41,6 +54,8 @@ def create_app():
     load_config(app)
     load_logging_config(app)
     make_instance_path(app)
+    db.init_app(app)
+    app.cli.add_command(create_all_models_command)
     load_all_controllers(app)
 
     return app
