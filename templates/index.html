@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<ul>
+    <li><a href="{{ url_for('author.index') }}">Author</a></li>
+</ul>
+{% endblock %}

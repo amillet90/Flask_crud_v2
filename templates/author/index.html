@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Authors{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('author.add') }}">Add</a>
+<table>
+    <tr>
+        <th>id</th>
+        <th>first name</th>
+        <th>last name</th>
+        <th>actions</th>
+    </tr>
+    {% for author in authors %}
+    <tr>
+        <td>{{ author.id }}</td>
+        <td>{{ author.first_name }}</td>
+        <td>{{ author.last_name }}</td>
+        <td>
+            <a href="{{ url_for('author.delete', id=author.id) }}">Delete</a>
+            <a href="{{ url_for('author.modify', id=author.id) }}">Modify</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
