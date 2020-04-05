@@ -1,7 +1,7 @@
 from flask import *
 
 from app import db
-from model.author import Author
+from Entity.Author import Author
 
 c = Blueprint('author', __name__, url_prefix='/author')
 

@@ -26,9 +26,9 @@ def make_instance_path():
 
 
 def load_all_controllers():
-    from controller import author, index
+    from Controller import AuthorController, MainController
 
-    controllers = [author.c, index.c]
+    controllers = [AuthorController.c, MainController.c]
     for c in controllers:
         app.register_blueprint(c)
 

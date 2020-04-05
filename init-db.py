@@ -1,5 +1,5 @@
 from app import db
-from model import author
+from Entity import Author
 
 
 def main():
