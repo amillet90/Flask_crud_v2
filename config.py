@@ -1,7 +1,12 @@
 # Database Configuration
 # ----------------------
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+MYSQL_HOSTNAME = 'localhost'
+MYSQL_DATABASE = 'flask_app'
+MYSQL_USERNAME = 'root'
+MYSQL_PASSWORD = 'password'
+
+SQLALCHEMY_DATABASE_URI = f'mysql://{MYSQL_USERNAME}:{MYSQL_PASSWORD}@{MYSQL_HOSTNAME}/{MYSQL_DATABASE}'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Logging configuration
