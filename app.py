@@ -38,4 +38,4 @@ if __name__ == '__main__':
     make_instance_path()
     load_all_controllers()
 
-    app.run()
+    app.run(debug=True)
