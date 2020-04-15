@@ -1,0 +1,28 @@
+{% extends 'base.html.jj2' %}
+
+{% block title %}Oeuvre{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>id</th>
+            <th>titre</th>
+            <th>auteur</th>
+            <th>date parution</th>
+            <th>photo</th>
+            <th>actions</th>
+        </tr>
+        {% for oeuvre in oeuvres %}
+            <tr>
+                <td>{{ oeuvre.id }}</td>
+                <td>{{ oeuvre.titre }}</td>
+                <td>{{ oeuvre.auteur.nom }}</td>
+                <td>{{ oeuvre.dateParution }}</td>
+                <td><img style="max-height: 24px" src="{{ url_for('static', filename='images/' ~ oeuvre.photo) }}"></td>
+                <td>
+                    <a href="{{ url_for('oeuvre.supprimer', id=oeuvre.id) }}">Supprimer</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
