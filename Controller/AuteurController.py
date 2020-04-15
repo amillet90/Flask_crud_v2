@@ -1,3 +1,5 @@
+import re
+
 from flask import *
 
 from app import db
@@ -26,13 +28,15 @@ def ajouter():
     if request.method == 'GET':
         return render_template('auteur/ajouter.html')
 
-    auteur = Auteur(prenom=request.form['prenom'],
-                    nom=request.form['nom'])
+    if valider_form():
+        auteur = Auteur(prenom=request.form['prenom'],
+                        nom=request.form['nom'])
+        db.session.add(auteur)
+        db.session.commit()
 
-    db.session.add(auteur)
-    db.session.commit()
-
-    return redirect(url_for('auteur.index'))
+        return redirect(url_for('auteur.index'))
+    else:
+        return redirect(url_for('auteur.ajouter'))
 
 
 @c.route('/modifier/<int:id>', methods=['GET', 'POST'])
@@ -42,8 +46,25 @@ def modifier(id):
     if request.method == 'GET':
         return render_template('auteur/modifier.html', auteur=auteur)
 
-    auteur.prenom = request.form['prenom']
-    auteur.nom = request.form['nom']
-    db.session.commit()
+    if valider_form():
+        auteur.prenom = request.form['prenom']
+        auteur.nom = request.form['nom']
+        db.session.commit()
 
-    return redirect(url_for('auteur.index'))
+        return redirect(url_for('auteur.index'))
+    else:
+        return redirect(url_for('auteur.modifier', id=id))
+
+
+def valider_form():
+    valid = True
+
+    if not re.match(r'\w{2,}', request.form['prenom']):
+        flash('Prenom doit avoir au moins deux caractères')
+        valid = False
+
+    if not re.match(r'\w{2,}', request.form['nom']):
+        flash('Nom doit avoir au moins deux caractères')
+        valid = False
+
+    return valid
