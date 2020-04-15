@@ -1,3 +1,8 @@
+# Flask configuration
+# -------------------
+
+SECRET_KEY = 'THISISAREALLYBADSECRETKEY'
+
 # Database Configuration
 # ----------------------
 
