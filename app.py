@@ -25,9 +25,9 @@ def make_instance_path(app):
 
 
 def load_all_controllers(app):
-    from Controller import AuteurController, MainController
+    from Controller import AuteurController, IndexController
 
-    controllers = [AuteurController.c, MainController.c]
+    controllers = [AuteurController.c, IndexController.c]
     for c in controllers:
         app.register_blueprint(c)
 
@@ -57,7 +57,6 @@ def create_app():
     from Entity.Auteur import Auteur
     app.cli.add_command(create_all_tables)
     app.cli.add_command(drop_all_tables)
-
 
     load_all_controllers(app)
 
