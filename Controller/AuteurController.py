@@ -10,7 +10,7 @@ c = Blueprint('auteur', __name__, url_prefix='/auteur')
 
 @c.route('/')
 def index():
-    return render_template('auteur/index.html', auteurs=Auteur.query.all())
+    return render_template('auteur/index.html.jj2', auteurs=Auteur.query.all())
 
 
 @c.route('/supprimer/<int:id>', methods=['GET'])
@@ -26,7 +26,7 @@ def supprimer(id):
 @c.route('/ajouter', methods=['GET', 'POST'])
 def ajouter():
     if request.method == 'GET':
-        return render_template('auteur/ajouter.html')
+        return render_template('auteur/ajouter.html.jj2')
 
     if valider_form():
         auteur = Auteur(prenom=request.form['prenom'],
@@ -44,7 +44,7 @@ def modifier(id):
     auteur = Auteur.query.filter_by(id=id).first_or_404()
 
     if request.method == 'GET':
-        return render_template('auteur/modifier.html', auteur=auteur)
+        return render_template('auteur/modifier.html.jj2', auteur=auteur)
 
     if valider_form():
         auteur.prenom = request.form['prenom']

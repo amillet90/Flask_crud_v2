@@ -1,0 +1,9 @@
+{% extends 'base.html.jj2' %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    <ul>
+        <li><a href="{{ url_for('auteur.index') }}">Auteur</a></li>
+    </ul>
+{% endblock %}
