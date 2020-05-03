@@ -44,6 +44,28 @@ def ajouter():
         return redirect(url_for('oeuvre.ajouter'))
 
 
+@bp.route('/modifier/<int:id>', methods=['GET', 'POST'])
+def modifier(id):
+    oeuvre = Oeuvre.query.filter_by(id=id).first_or_404()
+
+    if request.method == 'GET':
+        return render_template('oeuvre/modifier.html.jj2',
+                               oeuvre=oeuvre, auteurs=Auteur.query.all())
+
+    if valider_form():
+        auteur = Auteur.query.filter_by(id=request.form['auteur_id']).first()
+
+        oeuvre.titre = request.form['titre'],
+        oeuvre.dateParution = request.form['dateParution']
+        oeuvre.photo = request.form['photo']
+        oeuvre.auteur = auteur
+        db.session.commit()
+
+        return redirect(url_for('oeuvre.index'))
+    else:
+        return redirect(url_for('oeuvre.modifier'))
+
+
 def valider_form():
     valid = True
 

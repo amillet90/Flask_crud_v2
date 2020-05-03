@@ -22,6 +22,7 @@
                 <td><img style="max-height: 24px" src="{{ url_for('static', filename='images/' ~ oeuvre.photo) }}"></td>
                 <td>
                     <a href="{{ url_for('oeuvre.supprimer', id=oeuvre.id) }}">Supprimer</a>
+                    <a href="{{ url_for('oeuvre.modifier', id=oeuvre.id) }}">Modifier</a>
                 </td>
             </tr>
         {% endfor %}
