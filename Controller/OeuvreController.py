@@ -3,6 +3,7 @@ import re
 from flask import *
 
 from app import db
+from Entity.Auteur import Auteur
 from Entity.Oeuvre import Oeuvre
 
 bp = Blueprint('oeuvre', __name__, url_prefix='/oeuvre')
@@ -21,3 +22,29 @@ def supprimer(id):
     db.session.commit()
 
     return redirect(url_for('oeuvre.index'))
+
+
+@bp.route('/ajouter', methods=['GET', 'POST'])
+def ajouter():
+    if request.method == 'GET':
+        return render_template('oeuvre/ajouter.html.jj2', auteurs=Auteur.query.all())
+
+    if valider_form():
+        auteur = Auteur.query.filter_by(id=request.form['auteur_id']).first()
+
+        oeuvre = Oeuvre(titre=request.form['titre'],
+                        dateParution=request.form['dateParution'],
+                        photo=request.form['photo'],
+                        auteur=auteur)
+        db.session.add(auteur)
+        db.session.commit()
+
+        return redirect(url_for('oeuvre.index'))
+    else:
+        return redirect(url_for('oeuvre.ajouter'))
+
+
+def valider_form():
+    valid = True
+
+    return valid

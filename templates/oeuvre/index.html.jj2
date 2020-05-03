@@ -3,6 +3,7 @@
 {% block title %}Oeuvre{% endblock %}
 
 {% block content %}
+    <a href="{{ url_for('oeuvre.ajouter') }}">Ajouter</a>
     <table>
         <tr>
             <th>id</th>
