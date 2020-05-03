@@ -36,7 +36,7 @@ def ajouter():
                         dateParution=request.form['dateParution'],
                         photo=request.form['photo'],
                         auteur=auteur)
-        db.session.add(auteur)
+        db.session.add(oeuvre)
         db.session.commit()
 
         return redirect(url_for('oeuvre.index'))
