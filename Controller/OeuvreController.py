@@ -29,7 +29,8 @@ def supprimer(id):
 @bp.route('/ajouter', methods=['GET', 'POST'])
 def ajouter():
     if request.method == 'GET':
-        return render_template('oeuvre/ajouter.html.jj2', auteurs=Auteur.query.all())
+        return render_template('oeuvre/ajouter.html.jj2',
+                               auteurs=Auteur.query.all())
 
     if valider_form():
         auteur = Auteur.query.filter_by(id=request.form['auteur_id']).first()
