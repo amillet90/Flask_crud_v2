@@ -1,3 +1,5 @@
+import datetime
+import os
 import re
 
 from flask import *
@@ -63,10 +65,32 @@ def modifier(id):
 
         return redirect(url_for('oeuvre.index'))
     else:
-        return redirect(url_for('oeuvre.modifier'))
+        return redirect(url_for('oeuvre.modifier', id=id))
 
 
 def valider_form():
     valid = True
+
+    auteur = Auteur.query.filter_by(id=request.form['auteur_id']).first()
+
+    if auteur is None:
+        flash("Auteur n'existe pas.")
+        valid = False
+
+    if not re.match(r'\w{2,}', request.form['titre']):
+        flash('Titre doit avoir au moins deux caratères')
+        valid = False
+
+    try:
+        datetime.datetime.strptime(request.form['dateParution'], '%Y-%m-%d')
+    except ValueError:
+        flash("Date n'est pas valide")
+        valid = False
+
+    photo_path = os.path.join(current_app.root_path, 'static', 'images', request.form['photo'])
+
+    if not os.path.isfile(photo_path):
+        flash(f"Photo n'existe pas {photo_path}")
+        valid = False
 
     return valid
