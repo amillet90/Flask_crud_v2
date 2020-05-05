@@ -1,0 +1,31 @@
+{% extends "base.html.jj2" %}
+
+{% block title %}Modifier auteur {{ auteur.id }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box alert">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="post" action="">
+            <fieldset>
+                <legend>Modifier un Auteur</legend>
+
+                <label>Nom</label>
+                <input name="nom" type="text" size="18" value="{{ auteur.nom }}">
+
+                <label>Prénom</label>
+                <input name="prenom" type="text" size="18" value="{{ auteur.prenom }}">
+
+                <input type="submit" value="Modifier">
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html.jj2" %}
+
+{% block title %}Modifier oeuvre : {{ oeuvre.id }}{% endblock %}
+{% block content %}
+    <div class="row">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box alert">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="post" action="">
+            <fieldset>
+                <legend>Modifier une Oeuvre</legend>
+
+                <label>Titre
+                    <input name="titre"  type="text"  size="18" value="{{ oeuvre.titre if oeuvre else '' }}"/>
+                </label>
+                <label>date de parution
+                    <input name="dateParution"  type="text"  size="18" value="{{ oeuvre.dateParution if oeuvre else '' }}"/>
+                </label>
+
+                <label>Auteur</label>
+                <select name="auteur_id">
+                    {% if not oeuvre %}
+                        <option value="">Saisir une valeur</option>
+                    {% endif %}
+                    {% for auteur in auteurs %}
+                        <option value="{{ auteur.id }}"
+                                {% if oeuvre and auteur.idAuteur == oeuvre.auteur.id %}selected{% endif %}>
+                            {{ auteur.nom }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label>photo
+                    <input name="photo"  type="text"  size="18" value="{{ oeuvre.photo if oeuvre else '' }}"/>
+                </label>
+
+                <input type="submit" name="UpdateOeuvre" value="Modifier" class="button radius"/>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

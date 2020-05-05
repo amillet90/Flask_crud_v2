@@ -3,8 +3,5 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-    <ul>
-        <li><a href="{{ url_for('auteur.index') }}">Auteur</a></li>
-        <li><a href="{{ url_for('oeuvre.index') }}">Oeuvre</a></li>
-    </ul>
+    <h1>Projet Biblio</h1>
 {% endblock %}

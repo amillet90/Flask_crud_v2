@@ -1,7 +1,7 @@
 from flask import *
 
 
-c = Blueprint('index', __name__, url_prefix='/')
+c = Blueprint('main', __name__, url_prefix='/')
 
 
 @c.route('/')

@@ -1,0 +1,26 @@
+{% extends "base.html.jj2" %}
+
+{% block title %}Ajouteur oeuvre{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box alert">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="post" action="">
+            <fieldset>
+                <legend>Ajouter une Oeuvre</legend>
+                {% include 'oeuvre/_formAuteur.html.jj2' %}
+
+                <input type="submit" name="AddOeuvre" value="Ajouter" class="button radius"/>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

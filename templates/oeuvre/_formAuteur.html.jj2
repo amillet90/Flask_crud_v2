@@ -1,0 +1,23 @@
+<label>Titre
+    <input name="titre"  type="text"  size="18" value="{{ oeuvre.titre if oeuvre else '' }}"/>
+</label>
+<label>date de parution
+    <input name="dateParution"  type="text"  size="18" value="{{ oeuvre.dateParution if oeuvre else '' }}"/>
+</label>
+
+<label>Auteur</label>
+<select name="auteur_id">
+    {% if not oeuvre %}
+        <option value="">Saisir une valeur</option>
+    {% endif %}
+    {% for auteur in auteurs %}
+        <option value="{{ auteur.id }}"
+                {% if oeuvre and auteur.idAuteur == oeuvre.auteur.id %}selected{% endif %}>
+            {{ auteur.nom }}
+        </option>
+    {% endfor %}
+</select>
+
+<label>photo
+    <input name="photo"  type="text"  size="18" value="{{ oeuvre.photo if oeuvre else '' }}"/>
+</label>

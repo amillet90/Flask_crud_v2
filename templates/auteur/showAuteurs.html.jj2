@@ -1,0 +1,36 @@
+{% extends 'base.html.jj2' %}
+
+{% block title %}Auteurs{% endblock %}
+{% block content %}
+    <div class="row" >
+        <a href="{{ url_for('auteur.ajouter') }}">Ajouter un Auteur</a>
+        <table border="2">
+            <caption>Recapitulatif des Auteurs</caption>
+            <thead>
+                <tr><th>nom</th><th>prenom</th><th>nombre d'oeuvres</th><th>opérations</th></tr>
+            </thead>
+            <tbody>
+                {% if auteurs %}
+                    {% for auteur in auteurs %}
+                        <tr><td>
+                            {{ auteur.nom }}
+                        </td><td>
+                            {{ auteur.prenom }}
+                        </td><td>
+                            {{ auteur.oeuvres|length }}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('auteur.modifier', id=auteur.id) }}">modifier</a>
+                            <a href="{{ url_for('auteur.supprimer', id=auteur.id) }}">supprimer</a>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>pas d'auteur dans la base de données</td>
+                    </tr>
+                {% endif %}
+                <tbody>
+        </table>
+    </div>
+{% endblock %}

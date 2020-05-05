@@ -1,0 +1,41 @@
+{% extends "base.html.jj2" %}
+
+{% block title %}Oeuvres{% endblock %}
+{% block content %}
+    <div class="row" >
+        <a href="{{ url_for('oeuvre.ajouter') }}"> Ajouter un oeuvre </a>
+        <table>
+            <caption>Recapitulatifs des oeuvres</caption>
+            <thead>
+                <tr><th>nom de l'auteur</th><th>titre</th><th>date de parution</th>
+                    <th>photo</th><th>opérations</th></tr>
+            </thead>
+            <tbody>
+                {% if oeuvres %}
+                    {% for oeuvre in oeuvres %}
+                        <tr><td>
+                            {{ oeuvre.auteur.nom }}
+                        </td><td>
+                            {{ oeuvre.titre }}
+
+                        </td><td>
+                            {{ oeuvre.dateParution }}
+                        </td>
+                        <td>
+                            {% if oeuvre.photo %}
+                                <img style="width:20px;height:20px" src="{{ url_for('static', filename='assets/images/' ~ oeuvre.photo) }}" alt="image de {{ oeuvre.titre }}" >
+                            {% else %}
+                                <img style="width:20px;height:20px" src="{{ url_for('static', filename='assets/images/no_photo.jpeg') }}" alt="pas de photo" >
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('oeuvre.modifier', id=oeuvre.id) }}">modifier</a>
+                            <a href="{{ url_for('oeuvre.supprimer',id=oeuvre.id) }}">supprimer</a>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                <tbody>
+        </table>
+    </div>
+{% endblock %}

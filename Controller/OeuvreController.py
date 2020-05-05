@@ -11,9 +11,9 @@ from Entity.Oeuvre import Oeuvre
 bp = Blueprint('oeuvre', __name__, url_prefix='/oeuvre')
 
 
-@bp.route('/')
-def index():
-    return render_template('oeuvre/index.html.jj2', oeuvres=Oeuvre.query.all())
+@bp.route('/show')
+def show():
+    return render_template('oeuvre/showOeuvre.html.jj2', oeuvres=Oeuvre.query.all())
 
 
 @bp.route('/supprimer/<int:id>', methods=['GET'])
@@ -23,13 +23,13 @@ def supprimer(id):
     db.session.delete(oeuvre)
     db.session.commit()
 
-    return redirect(url_for('oeuvre.index'))
+    return redirect(url_for('oeuvre.show'))
 
 
 @bp.route('/ajouter', methods=['GET', 'POST'])
 def ajouter():
     if request.method == 'GET':
-        return render_template('oeuvre/ajouter.html.jj2',
+        return render_template('oeuvre/addOeuvre.html.jj2',
                                auteurs=Auteur.query.all())
 
     if valider_form():
@@ -42,7 +42,7 @@ def ajouter():
         db.session.add(oeuvre)
         db.session.commit()
 
-        return redirect(url_for('oeuvre.index'))
+        return redirect(url_for('oeuvre.show'))
     else:
         return redirect(url_for('oeuvre.ajouter'))
 
@@ -52,21 +52,26 @@ def modifier(id):
     oeuvre = Oeuvre.query.filter_by(id=id).first_or_404()
 
     if request.method == 'GET':
-        return render_template('oeuvre/modifier.html.jj2',
+        return render_template('oeuvre/editOeuvre.html.jj2',
                                oeuvre=oeuvre, auteurs=Auteur.query.all())
 
     if valider_form():
         auteur = Auteur.query.filter_by(id=request.form['auteur_id']).first()
 
-        oeuvre.titre = request.form['titre'],
+        photo = request.form['photo']
+
+        if not photo:
+            photo = 'no_photo.jpeg'
+
+        oeuvre.titre = request.form['titre']
         oeuvre.dateParution = request.form['dateParution']
-        oeuvre.photo = request.form['photo']
+        oeuvre.photo = photo
         oeuvre.auteur = auteur
         db.session.commit()
 
-        return redirect(url_for('oeuvre.index'))
+        return redirect(url_for('oeuvre.show'))
     else:
-        return redirect(url_for('oeuvre.modifier', id=id))
+        return redirect(url_for('oeuvre.modifier', id=id)), 400
 
 
 def valider_form():
@@ -88,10 +93,12 @@ def valider_form():
         flash("Date n'est pas valide")
         valid = False
 
-    photo_path = os.path.join(current_app.root_path, 'static', 'images', request.form['photo'])
+    if request.form['photo']:
+        photo_path = os.path.join(current_app.root_path,
+                                  'static', 'assets', 'images', request.form['photo'])
 
-    if not os.path.isfile(photo_path):
-        flash(f"Photo n'existe pas {photo_path}")
-        valid = False
+        if not os.path.isfile(photo_path):
+            flash(f"Photo n'existe pas: { photo_path }")
+            valid = False
 
     return valid

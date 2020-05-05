@@ -1,0 +1,15 @@
+{% extends "base.html.jj2" %}
+
+{% block title %}Erreur{% endblock %}
+{% block content %}
+
+    <div class="row">
+
+        il faut supprimer  <strong>{{ nombre }} </strong> enregistrements dans la table OEUVRE avant de supprimer cet Auteur
+        <br> (et peut être dans la table des enregistrements dans les tables EXEMPLAIRE et EMPRUNT)
+        <br>
+
+    </div>
+    <a href="{{ url_for('auteur.show') }}">annuler</a>
+
+{% endblock %}

@@ -2,9 +2,26 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>{% block title %}{% endblock %} - Flask</title>
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/favicon.ico') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Projet Bibilio : {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/foundation.css') }}">
+        <script src="{{ url_for('static', filename='assets/js/vendor/modernizr.js') }}"></script>
     </head>
     <body>
-        {% block content %}{% endblock %}
+        {% include('_menu.html.jj2') %}
+        <br>
+        <div class="grid-container grid-container-padded">
+            <div class="grid-x grid-margin-x">
+                {% block content %}
+                    <h1>Projet Bibilio</h1>
+                {% endblock %}
+            </div>
+        </div>
+        <script src="{{ url_for('static', filename='assets/js/vendor/jquery.js') }}"></script>
+        <script src="{{ url_for('static', filename='assets/js/foundation.min.js') }}"></script>
+        <script>
+         $(document).foundation();
+        </script>
     </body>
 </html>

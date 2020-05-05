@@ -8,25 +8,28 @@ from Entity.Auteur import Auteur
 c = Blueprint('auteur', __name__, url_prefix='/auteur')
 
 
-@c.route('/')
-def index():
-    return render_template('auteur/index.html.jj2', auteurs=Auteur.query.all())
+@c.route('/show')
+def show():
+    return render_template('auteur/showAuteurs.html.jj2', auteurs=Auteur.query.all())
 
 
 @c.route('/supprimer/<int:id>', methods=['GET'])
 def supprimer(id):
     auteur = Auteur.query.filter_by(id=id).first_or_404()
 
+    if auteur.oeuvres:
+        return render_template('auteur/ErrorDeleteAuteur.html.jj2', nombre=len(auteur.oeuvres)), 400
+
     db.session.delete(auteur)
     db.session.commit()
 
-    return redirect(url_for('auteur.index'))
+    return redirect(url_for('auteur.show'))
 
 
 @c.route('/ajouter', methods=['GET', 'POST'])
 def ajouter():
     if request.method == 'GET':
-        return render_template('auteur/ajouter.html.jj2')
+        return render_template('auteur/addAuteur.html.jj2')
 
     if valider_form():
         auteur = Auteur(prenom=request.form['prenom'],
@@ -34,7 +37,7 @@ def ajouter():
         db.session.add(auteur)
         db.session.commit()
 
-        return redirect(url_for('auteur.index'))
+        return redirect(url_for('auteur.show'))
     else:
         return redirect(url_for('auteur.ajouter'))
 
@@ -44,16 +47,16 @@ def modifier(id):
     auteur = Auteur.query.filter_by(id=id).first_or_404()
 
     if request.method == 'GET':
-        return render_template('auteur/modifier.html.jj2', auteur=auteur)
+        return render_template('auteur/editAuteur.html.jj2', auteur=auteur)
 
     if valider_form():
         auteur.prenom = request.form['prenom']
         auteur.nom = request.form['nom']
         db.session.commit()
 
-        return redirect(url_for('auteur.index'))
+        return redirect(url_for('auteur.show'))
     else:
-        return redirect(url_for('auteur.modifier', id=id))
+        return redirect(url_for('auteur.modifier', id=id)), 400
 
 
 def valider_form():
