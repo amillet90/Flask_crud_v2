@@ -56,7 +56,7 @@ def modifier(id):
 
         return redirect(url_for('auteur.show'))
     else:
-        return redirect(url_for('auteur.modifier', id=id)), 400
+        return redirect(url_for('auteur.modifier', id=id))
 
 
 def valider_form():
