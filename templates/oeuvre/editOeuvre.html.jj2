@@ -1,4 +1,4 @@
-{% extends "base.html.jj2" %}
+{% extends "layout.html.jj2" %}
 
 {% block title %}Modifier oeuvre : {{ oeuvre.id }}{% endblock %}
 {% block content %}
