@@ -101,4 +101,4 @@ $ pipenv shell # pour aller dans l'environnement virtuel pour ce projet
 
 [homebrew]: https://brew.sh
 [chocolatey]: https://chocolatey.org
-[pipenv]:
+[pipenv]: https://github.com/pypa/pipenv
