@@ -15,6 +15,26 @@ $ flask run
 
 Si `flask` n'existe pas, assurer que `~/.local/bin` est dans votre `$PATH`.
 
+## Télécharger / clone le projet
+
+Il y a deux méthodes pour télecharger ou cloner le projet.
+
+### Méthode 1: Télécharger l'archive
+
+1. Taper le bouton avec l'icône télécharger qui est situé à gauche du bouton bleu
+   avec le texte "Clone".
+2. Choisir votre format préféré.
+3. Extraire l'archive à un dossier.
+
+### Méthode 2: Avec Git
+
+Pour utiliser cette méthode, c'est nécessaire d'avoir Git sur votre système.
+
+Pour cloner le projet, taper cette commande:
+```shell
+$ git clone https://gitlab.com/yuki_is_bored/flask_project
+```
+
 ## Installation
 
 ### Installation de Python
