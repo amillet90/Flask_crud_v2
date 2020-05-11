@@ -99,6 +99,30 @@ $ pipenv shell # pour aller dans l'environnement virtuel pour ce projet
 ```
 
 
+## Configuration
+
+### Configuration du BDD
+
+Ouvrir le fichier `config.py` et modifier les variables `MYSQL_HOSTNAME`,
+`MYSQL_DATABASE`, `MYSQL_USERNAME` et `MYSQL_PASSWORD`.
+
+Par exemple :
+
+```python
+MYSQL_HOSTNAME = 'balthasar.magi.nerv.gov.jp`
+MYSQL_DATABASE = 'detabesu'
+MYSQL_USERNAME = 'soryuu'
+MYSQL_PASSWORD = 'passwort'
+```
+
+### Initialiser le BDD
+
+Pour initialiser le BDD avec les éntités, taper cette commande :
+
+```shell
+$ flask create-all
+```
+
 [homebrew]: https://brew.sh
 [chocolatey]: https://chocolatey.org
 [pipenv]: https://github.com/pypa/pipenv
