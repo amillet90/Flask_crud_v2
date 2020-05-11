@@ -21,3 +21,7 @@
 <label>photo
     <input name="photo"  type="text"  size="18" value="{{ oeuvre.photo if oeuvre else '' }}"/>
 </label>
+
+<label>prix
+    <input name="prix"  type="text"  size="18" value="{{ oeuvre.prix if oeuvre else '' }}"/>
+</label>

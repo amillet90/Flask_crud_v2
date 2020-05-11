@@ -17,7 +17,7 @@
         <form method="post" action="">
             <fieldset>
                 <legend>Ajouter une Oeuvre</legend>
-                {% include 'oeuvre/_formAuteur.html.jj2' %}
+                {% include 'oeuvre/_formOeuvre.html.jj2' %}
 
                 <input type="submit" name="AddOeuvre" value="Ajouter" class="button radius"/>
             </fieldset>

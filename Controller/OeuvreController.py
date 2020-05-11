@@ -38,6 +38,7 @@ def ajouter():
         oeuvre = Oeuvre(titre=request.form['titre'],
                         dateParution=request.form['dateParution'],
                         photo=request.form['photo'],
+                        prix=request.form['prix'],
                         auteur=auteur)
         db.session.add(oeuvre)
         db.session.commit()
@@ -67,6 +68,8 @@ def modifier(id):
         oeuvre.dateParution = request.form['dateParution']
         oeuvre.photo = photo
         oeuvre.auteur = auteur
+        oeuvre.prix = request.form['prix']
+
         db.session.commit()
 
         return redirect(url_for('oeuvre.show'))
@@ -100,5 +103,11 @@ def valider_form():
         if not os.path.isfile(photo_path):
             flash(f"Photo n'existe pas: { photo_path }")
             valid = False
+
+    try:
+        float(request.form['prix'])
+    except ValueError:
+        flash("Prix n'est pas valide")
+        valid = False
 
     return valid
