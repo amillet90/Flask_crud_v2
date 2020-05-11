@@ -30,9 +30,11 @@ def supprimer(id):
 def ajouter():
     if request.method == 'GET':
         return render_template('oeuvre/addOeuvre.html.jj2',
-                               auteurs=Auteur.query.all())
+                               auteurs=Auteur.query.all(), errors=dict())
 
-    if valider_form():
+    valid, errors = valider_form()
+
+    if valid:
         auteur = Auteur.query.filter_by(id=request.form['auteur_id']).first()
 
         oeuvre = Oeuvre(titre=request.form['titre'],
@@ -45,7 +47,8 @@ def ajouter():
 
         return redirect(url_for('oeuvre.show'))
     else:
-        return redirect(url_for('oeuvre.ajouter'))
+        return render_template('oeuvre/addOeuvre.html.jj2',
+                               auteurs=Auteur.query.all(), errors=errors)
 
 
 @bp.route('/modifier/<int:id>', methods=['GET', 'POST'])
@@ -54,9 +57,12 @@ def modifier(id):
 
     if request.method == 'GET':
         return render_template('oeuvre/editOeuvre.html.jj2',
-                               oeuvre=oeuvre, auteurs=Auteur.query.all())
+                               oeuvre=oeuvre, auteurs=Auteur.query.all(),
+                               errors=dict())
 
-    if valider_form():
+    valid, errors = valider_form()
+
+    if valid:
         auteur = Auteur.query.filter_by(id=request.form['auteur_id']).first()
 
         photo = request.form['photo']
@@ -74,26 +80,32 @@ def modifier(id):
 
         return redirect(url_for('oeuvre.show'))
     else:
-        return redirect(url_for('oeuvre.modifier', id=id))
+        return render_template('oeuvre/editOeuvre.html.jj2',
+                               oeuvre=oeuvre, auteurs=Auteur.query.all(),
+                               errors=errors)
 
 
 def valider_form():
     valid = True
+    errors = dict()
 
     auteur = Auteur.query.filter_by(id=request.form['auteur_id']).first()
 
     if auteur is None:
-        flash("Auteur n'existe pas.")
+        # flash("Auteur n'existe pas")
+        errors['auteur'] = "Auteur n'existe pas"
         valid = False
 
     if not re.match(r'\w{2,}', request.form['titre']):
-        flash('Titre doit avoir au moins deux caratères')
+        # flash('Titre doit avoir au moins deux caractères')
+        errors['titre'] = "Titre doit avoir au moins deux caractères"
         valid = False
 
     try:
         datetime.datetime.strptime(request.form['dateParution'], '%Y-%m-%d')
     except ValueError:
-        flash("Date n'est pas valide")
+        # flash("Date n'est pas valide")
+        errors['dateParution'] = "Date n'est pas valide"
         valid = False
 
     if request.form['photo']:
@@ -101,13 +113,15 @@ def valider_form():
                                   'static', 'assets', 'images', request.form['photo'])
 
         if not os.path.isfile(photo_path):
-            flash(f"Photo n'existe pas: { photo_path }")
+            # flash(f"Photo n'existe pas: { photo_path }")
+            errors['photo'] = f"Photo n'existe pas: { photo_path }"
             valid = False
 
     try:
         float(request.form['prix'])
     except ValueError:
-        flash("Prix n'est pas valide")
+        # flash("Prix n'est pas valide")
+        errors['prix'] = "Prix n'est pas valide"
         valid = False
 
-    return valid
+    return (valid, errors)

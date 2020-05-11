@@ -20,9 +20,15 @@
 
                 <label>Nom</label>
                 <input name="nom" type="text" size="18">
+                {% if 'nom' in errors %}
+                    <small class="error">{{ errors['nom'] }}</small>
+                {% endif %}
 
                 <label>Prénom</label>
                 <input name="prenom" type="text" size="18">
+                {% if 'prenom' in errors %}
+                    <small class="error">{{ errors['prenom'] }}</small>
+                {% endif %}
 
                 <input type="submit" value="valider">
             </fieldset>

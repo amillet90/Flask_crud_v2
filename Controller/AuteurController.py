@@ -29,9 +29,11 @@ def supprimer(id):
 @c.route('/ajouter', methods=['GET', 'POST'])
 def ajouter():
     if request.method == 'GET':
-        return render_template('auteur/addAuteur.html.jj2')
+        return render_template('auteur/addAuteur.html.jj2', errors=dict())
 
-    if valider_form():
+    valid, errors = valider_form()
+
+    if valid:
         auteur = Auteur(prenom=request.form['prenom'],
                         nom=request.form['nom'])
         db.session.add(auteur)
@@ -39,7 +41,7 @@ def ajouter():
 
         return redirect(url_for('auteur.show'))
     else:
-        return redirect(url_for('auteur.ajouter'))
+        return render_template('auteur/addAuteur.html.jj2', errors=errors)
 
 
 @c.route('/modifier/<int:id>', methods=['GET', 'POST'])
@@ -47,27 +49,34 @@ def modifier(id):
     auteur = Auteur.query.filter_by(id=id).first_or_404()
 
     if request.method == 'GET':
-        return render_template('auteur/editAuteur.html.jj2', auteur=auteur)
+        return render_template('auteur/editAuteur.html.jj2', auteur=auteur,
+                               errors=dict())
 
-    if valider_form():
+    valid, errors = valider_form()
+
+    if valid:
         auteur.prenom = request.form['prenom']
         auteur.nom = request.form['nom']
         db.session.commit()
 
         return redirect(url_for('auteur.show'))
     else:
-        return redirect(url_for('auteur.modifier', id=id))
+        return render_template('auteur/editAuteur.html.jj2', auteur=auteur,
+                               errors=errors)
 
 
 def valider_form():
     valid = True
+    errors = dict()
 
     if not re.match(r'\w{2,}', request.form['prenom']):
-        flash('Prenom doit avoir au moins deux caractères')
+        # flash('Prenom doit avoir au moins deux caractères')
+        errors['prenom'] = 'Prenom doit avoir au moins deux caractères'
         valid = False
 
     if not re.match(r'\w{2,}', request.form['nom']):
-        flash('Nom doit avoir au moins deux caractères')
+        # flash('Nom doit avoir au moins deux caractères')
+        errors['nom'] = 'Nom doit avoir au moins deux caractères'
         valid = False
 
-    return valid
+    return (valid, errors)

@@ -1,8 +1,14 @@
 <label>Titre
     <input name="titre"  type="text"  size="18" value="{{ oeuvre.titre if oeuvre else '' }}"/>
+    {% if 'titre' in errors %}
+        <small class="error">{{ errors['titre'] }}</small>
+    {% endif %}
 </label>
 <label>date de parution
     <input name="dateParution"  type="text"  size="18" value="{{ oeuvre.dateParution if oeuvre else '' }}"/>
+    {% if 'dateParution' in errors %}
+        <small class="error">{{ errors['dateParution'] }}</small>
+    {% endif %}
 </label>
 
 <label>Auteur</label>
@@ -16,12 +22,21 @@
             {{ auteur.nom }}
         </option>
     {% endfor %}
+    {% if 'auteur' in errors %}
+        <small class="error">{{ errors['auteur'] }}</small>
+    {% endif %}
 </select>
 
-<label>photo
+<label>photoe
     <input name="photo"  type="text"  size="18" value="{{ oeuvre.photo if oeuvre else '' }}"/>
+    {% if 'photo' in errors %}
+        <small class="error">{{ errors['photo'] }}</small>
+    {% endif %}
 </label>
 
 <label>prix
     <input name="prix"  type="text"  size="18" value="{{ oeuvre.prix if oeuvre else '' }}"/>
+    {% if 'prix' in errors %}
+        <small class="error">{{ errors['prix'] }}</small>
+    {% endif %}
 </label>
