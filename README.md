@@ -108,6 +108,9 @@ Dans le dossier racine du projet, taper la commande suivante :
 $ pip install --user -r requirements.txt
 ```
 
+> **Remarque**: Si vous êtes sur Windows, Utilisez cette commande 
+> `python -m pip install -r requirements.txt`.
+
 #### Avec Pipenv et Pipfile
 
 [Pipenv][pipenv] est nécessaire pour installer les dépendances avec cette
