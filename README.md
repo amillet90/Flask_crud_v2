@@ -40,7 +40,7 @@ $ git clone https://gitlab.com/yuki_is_bored/flask_project
 Voir la documentation d'installation pour votre système d'éxploitation :
 
 * [Linux](./INSTALL.linux.md)
-* [Windows](./INSTALL.windows.md)
+* [Windows](./INSTALL.win.md)
 * [macOS](./INSTALL.macos.md)
 
 ## Configuration
